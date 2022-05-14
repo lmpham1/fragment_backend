@@ -1,0 +1,21 @@
+{
+  "name": "fragments",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A Private Repo for DPS955",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmpham1/fragments.git"
+  },
+  "keywords": [],
+  "author": "Le Minh Pham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lmpham1/fragments/issues"
+  },
+  "homepage": "https://github.com/lmpham1/fragments#readme"
+}
