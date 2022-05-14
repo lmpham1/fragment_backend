@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/lmpham1/fragments/issues"
   },
-  "homepage": "https://github.com/lmpham1/fragments#readme"
+  "homepage": "https://github.com/lmpham1/fragments#readme",
+  "devDependencies": {
+    "prettier": "2.6.2"
+  }
 }
