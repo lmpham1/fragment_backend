@@ -33,7 +33,3 @@ npm run debug
 ```console
 npm run lint
 ```
-
-### Credits
-
-Le Minh Pham
