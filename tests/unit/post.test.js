@@ -21,6 +21,7 @@ describe('POST /v1/fragments', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('ok');
     expect(res.body.size).toBe(3);
+    expect(res.headers.location).toEqual(expect.stringContaining(process.env.API_URL));
   });
 
   test('unsupported type returns 415', async () => {
