@@ -37,8 +37,8 @@ class Fragment {
 
     this.id = id ? id : randomUUID();
     this.ownerId = ownerId;
-    this.created = created ? created : new Date();
-    this.updated = updated ? updated : new Date();
+    this.created = created ? created : new Date().toISOString();
+    this.updated = updated ? updated : new Date().toISOString();
     this.type = type;
     this.size = size;
   }
@@ -51,12 +51,8 @@ class Fragment {
    */
   static async byUser(ownerId, expand = false) {
     // TODO
-    try{
       const fragments = await listFragments(ownerId, expand);
       return fragments;
-    } catch(err) {
-      console.log(err)
-    }
   }
 
   /**
@@ -67,12 +63,11 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     // TODO
-    try{
       const fragment = await readFragment(ownerId, id);
+      if (fragment === undefined){
+        throw new Error("no fragment");
+      }
       return fragment;
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   /**
@@ -83,11 +78,7 @@ class Fragment {
    */
   static delete(ownerId, id) {
     // TODO
-    try {
     return deleteFragment(ownerId, id);
-    } catch (err){
-      console.log(err);
-    }
   }
 
   /**
@@ -96,11 +87,8 @@ class Fragment {
    */
   save() {
     // TODO
-    try {
-      return writeFragment(this)
-    } catch (err) {
-      console.log(err);
-    };
+      this.updated = new Date().toISOString();
+      return writeFragment(this);
   }
 
   /**
@@ -109,12 +97,8 @@ class Fragment {
    */
   async getData() {
     // TODO
-    try {
     const result = await readFragmentData(this.ownerId, this.id);
     return result;
-    } catch(err) {
-      console.log(err)
-    }
   }
 
   /**
@@ -124,11 +108,9 @@ class Fragment {
    */
   async setData(data) {
     // TODO
-    try {
+      this.updated = new Date().toISOString();
+      this.size = data.byteLength;
       return writeFragmentData(this.ownerId, this.id, data);
-    } catch(err) {
-      console.log(err);
-    }
   }
 
   /**

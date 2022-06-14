@@ -16,6 +16,9 @@ function readFragment(ownerId, id) {
 
 // Write a fragment's data to memory db. Returns a Promise
 function writeFragmentData(ownerId, id, value) {
+  if (value === undefined){
+    throw new Error("Buffer cannot be empty");
+  }
   return data.put(ownerId, id, value).then().catch(err => console.log(err));
 }
 
