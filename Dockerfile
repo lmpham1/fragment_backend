@@ -23,7 +23,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 # Install node dependencies defined in package-lock.json
-RUN npm install
+RUN --mount=type=cache,target=/root/.npm,id=npm npm ci
 
 # Copy src to /app/src/
 COPY ./src ./src
