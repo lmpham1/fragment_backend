@@ -18,7 +18,7 @@ describe('POST /v1/fragments', () => {
       .auth('user1@email.com', 'password1')
       .send('abc')
       .set('Content-type', 'text/plain');
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(201);
     expect(res.body.status).toBe('ok');
     expect(res.body.size).toBe(3);
     expect(res.headers.location).toEqual(expect.stringContaining(process.env.API_URL));
@@ -29,7 +29,7 @@ describe('POST /v1/fragments', () => {
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
       .send('abc')
-      .set('Content-type', 'application/json');
+      .set('Content-type', 'invalid/type');
     expect(res.statusCode).toBe(415);
     expect(res.body.status).toBe('error');
   });

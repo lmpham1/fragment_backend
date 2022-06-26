@@ -12,26 +12,24 @@ const {
   deleteFragment,
 } = require('./data');
 
-const supportedType = [
-  'text/plain'
-]
+const supportedType = ['text/plain', 'application/json'];
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
     // TODO
-    if (ownerId === undefined){
-      throw new Error('onwerId is required');
+    if (ownerId === undefined) {
+      throw new Error('ownerId is required');
     }
 
-    if (type === undefined){
+    if (type === undefined) {
       throw new Error('type is required');
     }
 
-    if (typeof size != 'number' || size < 0){
+    if (typeof size != 'number' || size < 0) {
       throw new Error('size must be a number and is 0 or higher');
     }
 
-    if (!Fragment.isSupportedType(type)){
+    if (!Fragment.isSupportedType(type)) {
       throw new Error(`data type '${type}' is not supported`);
     }
 
@@ -51,8 +49,8 @@ class Fragment {
    */
   static async byUser(ownerId, expand = false) {
     // TODO
-      const fragments = await listFragments(ownerId, expand);
-      return fragments;
+    const fragments = await listFragments(ownerId, expand);
+    return fragments;
   }
 
   /**
@@ -63,11 +61,11 @@ class Fragment {
    */
   static async byId(ownerId, id) {
     // TODO
-      const fragment = await readFragment(ownerId, id);
-      if (fragment === undefined){
-        throw new Error("no fragment");
-      }
-      return fragment;
+    const fragment = await readFragment(ownerId, id);
+    if (fragment === undefined) {
+      throw new Error('No fragment found');
+    }
+    return fragment;
   }
 
   /**
@@ -87,8 +85,8 @@ class Fragment {
    */
   save() {
     // TODO
-      this.updated = new Date().toISOString();
-      return writeFragment(this);
+    this.updated = new Date().toISOString();
+    return writeFragment(this);
   }
 
   /**
@@ -108,9 +106,9 @@ class Fragment {
    */
   async setData(data) {
     // TODO
-      this.updated = new Date().toISOString();
-      this.size = data.byteLength;
-      return writeFragmentData(this.ownerId, this.id, data);
+    this.updated = new Date().toISOString();
+    this.size = data.byteLength;
+    return writeFragmentData(this.ownerId, this.id, data);
   }
 
   /**
@@ -129,7 +127,7 @@ class Fragment {
    */
   get isText() {
     // TODO
-    return this.type.substring(0, 5) === 'text/'
+    return this.type.substring(0, 5) === 'text/';
   }
 
   /**
@@ -137,11 +135,11 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    let resultingTypes = []
+    let resultingTypes = [];
     // TODO
-    for (let i = 0; i < supportedType.length; ++i){
-      if (this.type.includes(supportedType[i])){
-        resultingTypes.push(supportedType[i])
+    for (let i = 0; i < supportedType.length; ++i) {
+      if (this.type.includes(supportedType[i])) {
+        resultingTypes.push(supportedType[i]);
       }
     }
     return resultingTypes;
@@ -154,9 +152,8 @@ class Fragment {
    */
   static isSupportedType(value) {
     // TODO
-    for (let i = 0; i < supportedType.length; ++i){
-      if (value.includes(supportedType[i]))
-        return true;
+    for (let i = 0; i < supportedType.length; ++i) {
+      if (value.includes(supportedType[i])) return true;
     }
     return false;
   }

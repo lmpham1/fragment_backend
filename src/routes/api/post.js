@@ -7,18 +7,26 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
  * Get a list of fragments for the current user
  */
 module.exports = async (req, res) => {
-  const fragmentValue = req.body;
-  const fragment = new Fragment({ ownerId: req.user, type: req.headers['content-type'] });
-  if (!Fragment.isSupportedType(fragment.type)) {
+  try {
+    const fragmentValue = req.body;
+    const fragment = new Fragment({ ownerId: req.user, type: req.headers['content-type'] });
+    if (!Fragment.isSupportedType(fragment.type)) {
+      throw new Error(`data of type ${fragment.type} is unsupported!`);
+    }
+    await fragment.save();
+    await fragment.setData(fragmentValue);
+    const data = await fragment.getData();
+    try {
+      console.log(JSON.parse(data.toString()));
+    } catch (err) {
+      console.log(err);
+    }
+    // TODO: this is just a placeholder to get something working...
     res
-      .status(415)
-      .json(createErrorResponse(415, `Data of type ${fragment.type} is not supported`));
+      .status(201)
+      .location(process.env.API_URL + '/' + fragment.id)
+      .json(createSuccessResponse(fragment));
+  } catch (err) {
+    res.status(415).json(createErrorResponse(415, err));
   }
-  await fragment.save();
-  await fragment.setData(fragmentValue);
-  // TODO: this is just a placeholder to get something working...
-  res
-    .status(201)
-    .location(process.env.API_URL + '/' + fragment.id)
-    .json(createSuccessResponse(fragment));
 };
