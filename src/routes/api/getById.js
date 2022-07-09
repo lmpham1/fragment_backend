@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
           break;
         }
         case 'application/json':
-          data = data.toJSON();
+          data = JSON.parse(data.toString());
           break;
       }
       res.status(200).json(
