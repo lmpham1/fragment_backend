@@ -17,6 +17,9 @@ router.get('/fragments', require('./get'));
 // GET /v1/fragments/:id
 router.get('/fragments/:id', require('./getById'));
 
+// GET /v1/fragments/:id/info
+router.get('/fragments/:id/info', require('./getInfoById'));
+
 // Other routes will go here later on...
 
 // Support sending various Content-Types on the body up to 5M in size

@@ -9,10 +9,9 @@ const { createSuccessResponse } = require('../../response');
 module.exports = async (req, res) => {
   const expand = req.query.expand;
   const fragments = await Fragment.byUser(req.user, expand);
-  if (fragments)
-    res.status(200).json(
-      createSuccessResponse({
-        fragments: fragments,
-      })
-    );
+  res.status(200).json(
+    createSuccessResponse({
+      fragments: fragments,
+    })
+  );
 };

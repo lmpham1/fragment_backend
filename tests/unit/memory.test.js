@@ -6,6 +6,7 @@ const {
   readFragment,
   readFragmentData,
   writeFragmentData,
+  listFragments,
 } = require('../../src/model/data');
 
 const { Fragment } = require('../../src/model/fragment');
@@ -43,9 +44,23 @@ describe('memory/index.js', () => {
     expect(result).toBe(undefined);
   });
 
+  test('writeFragmentData() attempt to write an empty object', async () => {
+    expect(() => writeFragmentData('a', 'b', undefined)).toThrow();
+  });
+
   test('readFragmentData() returns what we writeFragmentData() into the db', async () => {
     await writeFragmentData('a', 'b', 'A');
     const result = await readFragmentData('a', 'b');
     expect(result).toEqual('A');
+  });
+
+  test('listFragments() returns all fragments for a user', async () => {
+    const data = new Fragment({ ownerId: 'b', id: 'a', type: 'text/plain', size: 1 });
+    await writeFragment(data);
+    await writeFragmentData('b', 'a', 'A');
+    const result = await listFragments('b');
+    expect(result[0]).toEqual('a');
+    const expandedResult = await listFragments('b', true);
+    expect(expandedResult[0].id).toEqual('a');
   });
 });

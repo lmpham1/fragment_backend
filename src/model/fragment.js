@@ -62,7 +62,7 @@ class Fragment {
   static async byId(ownerId, id) {
     // TODO
     const fragment = await readFragment(ownerId, id);
-    if (fragment === undefined) {
+    if (fragment === undefined && Object.entries(fragment).length > 0) {
       throw new Error('No fragment found');
     }
     return fragment;
