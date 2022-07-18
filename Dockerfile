@@ -9,12 +9,10 @@ COPY package.json .
 # ---- Dependencies ----
 FROM base AS dependencies
 # install node packages
-RUN npm set progress=false && npm config set depth 0
-RUN npm install --only=production 
-# copy production node_modules aside
-RUN cp -R node_modules prod_node_modules
-# install ALL node_modules, including 'devDependencies'
-RUN npm install
+RUN npm set progress=false && npm config set depth 0 &&\
+    npm install --only=production &&\
+    cp -R node_modules prod_node_modules &&\
+    npm install
  
 #
 # ---- Test ----
@@ -34,4 +32,4 @@ COPY ./src ./src
 COPY ./tests/.htpasswd ./tests/.htpasswd
 # expose port and define CMD
 EXPOSE 8080
-CMD npm run start
+CMD ["npm", "run", "start"]
