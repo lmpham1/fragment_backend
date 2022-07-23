@@ -9,5 +9,6 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
+  ignorePatterns: ['tests/integration/*.hurl'],
   rules: {},
 };
