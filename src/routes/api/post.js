@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     // TODO: this is just a placeholder to get something working...
     res
       .status(201)
-      .location(process.env.API_URL + '/' + fragment.id)
+      .location(process.env.API_URL + '/v1/fragments/' + fragment.id)
       .json(createSuccessResponse(fragment));
   } catch (err) {
     console.log(err);
