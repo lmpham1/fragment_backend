@@ -1,7 +1,7 @@
 // src/routes/api/get.js
 
 const { Fragment } = require('../../model/fragment');
-const { createSuccessResponse, createErrorResponse } = require('../../response');
+const { createErrorResponse } = require('../../response');
 const md = require('markdown-it')();
 /**
  * Get a list of fragments for the current user
@@ -27,13 +27,15 @@ module.exports = async (req, res) => {
         if (isMarkdown) {
           data = md.render(data);
         }
+
+        res.status(200).send(data);
         break;
       }
       case 'application/json':
         data = JSON.parse(data.toString());
+        res.status(200).json(data);
         break;
     }
-    res.status(200).send(data);
   } catch (err) {
     console.log(err);
     res.status(404).json(createErrorResponse(404, err));

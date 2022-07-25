@@ -32,9 +32,7 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${fragment.id}`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragment.metadata.size).toBe(1);
-    expect(res.body.fragment.data).toBe('a');
+    expect(res.text).toBe('a');
   });
 
   test('get text/plain fragment with charset data', async () => {
@@ -49,10 +47,7 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${fragment.id}`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragment.metadata.size).toBe(1);
-    expect(res.body.fragment.metadata.type).toBe('text/plain; charset=utf-8');
-    expect(res.body.fragment.data).toBe('a');
+    expect(res.text).toBe('a');
   });
 
   test('convert fragment of type .md to .html', async () => {
@@ -67,10 +62,7 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${fragment.id}.md`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragment.metadata.type).toBe('text/plain; charset=utf-8');
-    expect(res.body.fragment.metadata.id).toBe(fragment.id);
-    expect(res.body.fragment.data).toContain('<h1>This is a header</h1>');
+    expect(res.text).toContain('<h1>This is a header</h1>');
   });
 
   test('get data of type application/json', async () => {
@@ -85,11 +77,8 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${fragment.id}`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.fragment.metadata.type).toBe('application/json');
-    expect(res.body.fragment.metadata.id).toBe(fragment.id);
-    expect(res.body.fragment.data.city).toBe('Madrid');
-    expect(res.body.fragment.data.number).toBe(11);
+    expect(res.body.city).toBe('Madrid');
+    expect(res.body.number).toBe(11);
   });
 
   test('fragment not found', async () => {
