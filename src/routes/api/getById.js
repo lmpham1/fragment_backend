@@ -33,14 +33,7 @@ module.exports = async (req, res) => {
         data = JSON.parse(data.toString());
         break;
     }
-    res.status(200).json(
-      createSuccessResponse({
-        fragment: {
-          metadata: fragment,
-          data: data,
-        },
-      })
-    );
+    res.status(200).send(data);
   } catch (err) {
     console.log(err);
     res.status(404).json(createErrorResponse(404, err));
