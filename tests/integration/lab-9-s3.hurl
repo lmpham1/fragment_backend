@@ -16,14 +16,13 @@ HTTP/1.1 201
 header "Location" matches "^http:\/\/localhost:8080\/v1\/fragments\/[A-Za-z0-9_-]+$"
 jsonpath "$.status" == "ok"
 # Our fragment ids use https://www.npmjs.com/package/nanoid
-jsonpath "$.fragment" matches "^[A-Za-z0-9_-]+$"
+jsonpath "$.id" matches "^[A-Za-z0-9_-]+$"
 # Our ownerId hash is a hex encoded string
-jsonpath "$.fragment" matches "^[0-9a-fA-F]+$"
+jsonpath "$.ownerId" matches "^[0-9a-fA-F]+$"
 # Basic check for the presence of created and updated date strings.
 # You could also write a regex for this and use matches
-jsonpath "$.fragment" isString
-jsonpath "$.fragment.updated" isString
-jsonpath "$.fragment.type" == "text/plain; charset=utf-8"
+jsonpath "$.created" isString
+jsonpath "$.updated" isString
 # Capture the Location URL into a variable named `url`
 [Captures]
 url: header "Location"
@@ -33,8 +32,6 @@ GET {{url}}
 Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 
 HTTP/1.1 200
-Content-Type: text/plain; charset=utf-8
-Content-Length: 19
 [Asserts]
 body == "Hello S3!"
 
