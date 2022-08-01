@@ -6,25 +6,38 @@ const metadata = new MemoryDB();
 
 // Write a fragment's metadata to memory db. Returns a Promise
 function writeFragment(fragment) {
-  return metadata.put(fragment.ownerId, fragment.id, fragment).then().catch(err => console.log(err));
+  return metadata
+    .put(fragment.ownerId, fragment.id, fragment)
+    .then()
+    .catch((err) => console.log(err));
 }
 
 // Read a fragment's metadata from memory db. Returns a Promise
 function readFragment(ownerId, id) {
-  return metadata.get(ownerId, id).then().catch(err => console.log(err));
+  return metadata
+    .get(ownerId, id)
+    .then()
+    .catch((err) => console.log(err));
 }
 
 // Write a fragment's data to memory db. Returns a Promise
 function writeFragmentData(ownerId, id, value) {
-  if (value === undefined){
-    throw new Error("Buffer cannot be empty");
+  console.log('hello from in-memory');
+  if (value === undefined) {
+    throw new Error('Buffer cannot be empty');
   }
-  return data.put(ownerId, id, value).then().catch(err => console.log(err));
+  return data
+    .put(ownerId, id, value)
+    .then()
+    .catch((err) => console.log(err));
 }
 
 // Read a fragment's data from memory db. Returns a Promise
 function readFragmentData(ownerId, id) {
-  return data.get(ownerId, id).then().catch(err => console.log(err));
+  return data
+    .get(ownerId, id)
+    .then()
+    .catch((err) => console.log(err));
 }
 
 // Get a list of fragment ids/objects for the given user from memory db. Returns a Promise
