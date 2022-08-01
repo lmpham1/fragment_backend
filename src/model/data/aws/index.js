@@ -37,7 +37,6 @@ async function writeFragmentData(ownerId, id, data) {
 
   try {
     // Use our client to send the command
-    console.log('hello from S3Client');
     await s3Client.send(command);
   } catch (err) {
     // If anything goes wrong, log enough info that we can debug
