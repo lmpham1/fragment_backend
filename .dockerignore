@@ -6,5 +6,3 @@ tests/
 .env
 .git/
 .gitignore
-.prettier*
-!tests/.htpasswd
