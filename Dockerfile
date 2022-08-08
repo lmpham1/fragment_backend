@@ -8,6 +8,7 @@ COPY package.json .
 #
 # ---- Dependencies ----
 FROM base AS dependencies
+WORKDIR /app
 # install node packages
 RUN npm set progress=false && npm config set depth 0 &&\
     npm install --only=production &&\
@@ -19,7 +20,7 @@ RUN npm set progress=false && npm config set depth 0 &&\
 # run linters, setup and tests
 FROM dependencies AS test
 COPY . .
-RUN  npm run test
+RUN  npm run lint && npm run test
  
 #
 # ---- Release ----
