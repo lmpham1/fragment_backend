@@ -17,7 +17,9 @@ RUN npm set progress=false && npm config set depth 0 &&\
 # ---- Test ----
 # run linters, setup and tests
 FROM dependencies AS test
-COPY . /app
+COPY . ./
+COPY ./.eslintrc.js .
+COPY ./jest.config.js .
 RUN  npm run lint && npm run test
  
 #
