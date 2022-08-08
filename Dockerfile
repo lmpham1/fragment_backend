@@ -5,10 +5,8 @@ WORKDIR /app
 # copy project file
 COPY package.json .
  
-#
 # ---- Dependencies ----
 FROM base AS dependencies
-WORKDIR /app
 # install node packages
 RUN npm set progress=false && npm config set depth 0 &&\
     npm install --only=production &&\
@@ -19,7 +17,7 @@ RUN npm set progress=false && npm config set depth 0 &&\
 # ---- Test ----
 # run linters, setup and tests
 FROM dependencies AS test
-COPY . .
+COPY . /app
 RUN  npm run lint && npm run test
  
 #
