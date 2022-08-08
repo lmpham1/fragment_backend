@@ -13,12 +13,6 @@ RUN npm set progress=false && npm config set depth 0 &&\
     cp -R node_modules prod_node_modules &&\
     npm install
  
-#
-# ---- Test ----
-# run linters, setup and tests
-FROM dependencies AS test
-COPY . .
-RUN  npm run lint && npm run test
  
 #
 # ---- Release ----
