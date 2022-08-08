@@ -65,7 +65,7 @@ class Fragment {
     if (fragment === undefined && Object.entries(fragment).length > 0) {
       throw new Error('No fragment found');
     }
-    return fragment;
+    return new Fragment(fragment);
   }
 
   /**

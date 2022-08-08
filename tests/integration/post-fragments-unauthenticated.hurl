@@ -1,4 +1,4 @@
-# tests/integration/post-fragments.hurl
+# tests/integration/post-fragments-unauthenticated.hurl
 # Authenticated POST to /v1/fragments
 POST http://localhost:8080/v1/fragments
 # user1@email.com:password1
