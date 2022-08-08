@@ -19,7 +19,7 @@ RUN npm set progress=false && npm config set depth 0 &&\
 # run linters, setup and tests
 FROM dependencies AS test
 COPY . .
-RUN  npm run lint && npm run test
+RUN  npm run test
  
 #
 # ---- Release ----
