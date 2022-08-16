@@ -15,11 +15,11 @@ module.exports = async (req, res) => {
     await fragment.save();
     // TODO: this is just a placeholder to get something working...
     res
-      .status(201)
+      .status(200)
       .location(process.env.API_URL + '/v1/fragments/' + fragment.id)
       .json(createSuccessResponse(fragment));
   } catch (err) {
     console.log(err);
-    res.status(415).json(createErrorResponse(415, err));
+    res.status(404).json(createErrorResponse(404, err));
   }
 };

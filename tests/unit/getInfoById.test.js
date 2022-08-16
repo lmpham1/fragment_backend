@@ -26,8 +26,8 @@ describe('GET /v1/fragments/:id', () => {
       type: 'text/plain; charset=utf-8',
       size: 0,
     });
-    await fragment.save();
     await fragment.setData(Buffer.from('a'));
+    await fragment.save();
     const res = await request(app)
       .get(`/v1/fragments/${fragment.id}/info`)
       .auth('user1@email.com', 'password1');

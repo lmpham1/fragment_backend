@@ -1,12 +1,11 @@
 // tests/unit/get.test.js
 
 const request = require('supertest');
-
 const app = require('../../src/app');
-
 const { Fragment } = require('../../src/model/fragment');
-
 const hash = require('../../src/hash');
+const fs = require('fs').promises;
+const path = require('path');
 
 describe('GET /v1/fragments/:id', () => {
   // If the request is missing the Authorization header, it should be forbidden
@@ -26,8 +25,8 @@ describe('GET /v1/fragments/:id', () => {
       type: 'text/plain',
       size: 0,
     });
-    await fragment.save();
     await fragment.setData(Buffer.from('a'));
+    await fragment.save();
     const res = await request(app)
       .get(`/v1/fragments/${fragment.id}`)
       .auth('user1@email.com', 'password1');
@@ -41,8 +40,8 @@ describe('GET /v1/fragments/:id', () => {
       type: 'text/plain; charset=utf-8',
       size: 0,
     });
-    await fragment.save();
     await fragment.setData(Buffer.from('a'));
+    await fragment.save();
     const res = await request(app)
       .get(`/v1/fragments/${fragment.id}`)
       .auth('user1@email.com', 'password1');
@@ -56,8 +55,8 @@ describe('GET /v1/fragments/:id', () => {
       type: 'text/plain; charset=utf-8',
       size: 0,
     });
-    await fragment.save();
     await fragment.setData(Buffer.from('# This is a header'));
+    await fragment.save();
     const res = await request(app)
       .get(`/v1/fragments/${fragment.id}.md`)
       .auth('user1@email.com', 'password1');
@@ -79,6 +78,39 @@ describe('GET /v1/fragments/:id', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.city).toBe('Madrid');
     expect(res.body.number).toBe(11);
+  });
+
+  test('get data of type image/jpeg', async () => {
+    const fragment = new Fragment({
+      ownerId: hash('user1@email.com'),
+      type: 'image/jpeg',
+      size: 0,
+    });
+    const image = await fs.readFile(path.join(__dirname, '..', 'static', 'test.jpg'));
+    await fragment.setData(image);
+    await fragment.save();
+    const res = await request(app)
+      .get(`/v1/fragments/${fragment.id}`)
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toBe('image/jpeg');
+    expect(Number(res.headers['content-length'])).toBeGreaterThan(0);
+  });
+
+  test('convert jpeg to gif', async () => {
+    const fragment = new Fragment({
+      ownerId: hash('user1@email.com'),
+      type: 'image/jpeg',
+      size: 0,
+    });
+    const image = await fs.readFile(path.join(__dirname, '..', 'static', 'test.jpg'));
+    await fragment.setData(image);
+    await fragment.save();
+    const res = await request(app)
+      .get(`/v1/fragments/${fragment.id}.gif`)
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toBe('image/gif');
   });
 
   test('fragment not found', async () => {
