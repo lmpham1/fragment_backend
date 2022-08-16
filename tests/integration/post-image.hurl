@@ -6,7 +6,7 @@ Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 # We're sending a plain text fragment
 Content-Type: image/jpeg
 # Body of the request goes in ```...``` when it's a string
-file,test.jpg
+file,test.jpg;
 
 # We expect to get back an HTTP 201
 HTTP/1.1 201
@@ -34,3 +34,10 @@ Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 
 HTTP/1.1 200
 Content-Type: image/jpeg
+
+# 2. Try to GET the fragment we just posted by its URL
+GET {{url}}.webp
+Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
+
+HTTP/1.1 200
+Content-Type: image/webp
