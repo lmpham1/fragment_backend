@@ -16,36 +16,24 @@ module.exports = async (req, res) => {
   try {
     const fragment = await Fragment.byId(req.user, id);
     let data = await fragment.getData();
-    switch (fragment.mimeType) {
-      case 'text/plain': {
-        const type = fragment.type;
-        let charset = undefined;
-        if (type.includes('charset=')) {
-          charset = fragment.type.substr(fragment.type.search(/(?<=charset=).*$/g));
-        }
-        data = data.toString(charset);
-        if (isMarkdown) {
-          data = md.render(data);
-        }
-
-        res.status(200).send(data);
-        break;
+    const mimeType = fragment.mimeType;
+    if (mimeType.startsWith('text/')) {
+      const type = fragment.type;
+      let charset = undefined;
+      if (type.includes('charset=')) {
+        charset = fragment.type.substr(fragment.type.search(/(?<=charset=).*$/g));
       }
-      case 'application/json':
-        data = JSON.parse(data.toString());
-        res.status(200).json(data);
-        break;
-      case 'image/png':
-        res.writeHead(200, {
-          'Content-Type': 'image/png',
-        });
-        res.send(data);
-        break;
-      case 'image/jpeg':
-        res.writeHead(200, {
-          'Content-Type': 'image/jpeg',
-        });
-        res.send(data);
+      data = data.toString(charset);
+      if (isMarkdown) {
+        data = md.render(data);
+      }
+
+      res.status(200).setHeader('Content-Type', fragment.type).send(data);
+    } else if (mimeType === 'application/json') {
+      data = JSON.parse(data.toString());
+      res.status(200).setHeader('Content-Type', fragment.type).json(data);
+    } else if (mimeType.startsWith('image/')) {
+      res.status(200).setHeader('Content-Type', fragment.type).send(data);
     }
   } catch (err) {
     console.log(err);
