@@ -42,6 +42,6 @@ router.post('/fragments', rawBody(), require('./post'));
 // DELETE /v1/fragments/:id
 router.delete('/fragments/:id', require('./deleteById'));
 
-router.put('/fragments/:id', require('./put'));
+router.put('/fragments/:id', rawBody(), require('./put'));
 
 module.exports = router;

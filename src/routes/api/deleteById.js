@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   let id = req.params.id;
   try {
     await Fragment.delete(req.user, id);
-    res.status(200).json(createSuccessResponse(id));
+    res.status(200).json(createSuccessResponse({ id: id }));
   } catch (err) {
     console.log(err);
     res.status(404).json(createErrorResponse(404, err));

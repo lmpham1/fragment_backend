@@ -10,9 +10,9 @@ module.exports = async (req, res) => {
   try {
     let id = req.params.id;
     const fragmentValue = req.body;
-    const fragment = new Fragment({ ownerId: req.user, type: req.headers['content-type'] });
-    await fragment.save();
+    const fragment = await Fragment.byId(req.user, id);
     await fragment.setData(fragmentValue);
+    await fragment.save();
     // TODO: this is just a placeholder to get something working...
     res
       .status(201)
