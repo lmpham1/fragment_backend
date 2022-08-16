@@ -12,7 +12,7 @@ const {
   deleteFragment,
 } = require('./data');
 
-const supportedType = ['text/plain', 'application/json'];
+const supportedType = ['text/plain', 'application/json', 'image/png', 'image/jpeg'];
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {

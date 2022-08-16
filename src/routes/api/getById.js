@@ -35,6 +35,17 @@ module.exports = async (req, res) => {
         data = JSON.parse(data.toString());
         res.status(200).json(data);
         break;
+      case 'image/png':
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+        });
+        res.send(data);
+        break;
+      case 'image/jpeg':
+        res.writeHead(200, {
+          'Content-Type': 'image/jpeg',
+        });
+        res.send(data);
     }
   } catch (err) {
     console.log(err);
