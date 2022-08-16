@@ -100,8 +100,8 @@ Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 
 HTTP/1.1 200
 [Asserts]
-jsonpath "$.fragments[*]" not includes "{{fragment1_id}}"
-jsonpath "$.fragments[*]" includes "{{fragment2_id}}"
+jsonpath "$.fragments[*]" !== "{{fragment1_id}}"
+jsonpath "$.fragments[*]" == "{{fragment2_id}}"
 
 DELETE {{fragment2_url}}
 Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
